@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{# -- タイトル -- #}
+{% block title %}Complete{% endblock %}
+
+{# -- CSS -- #}
+{% block extra_css %}
+  <style type="text/css">
+      main > section > .mx-auto {
+          max-width: 720px;
+      }
+  </style>
+{% endblock %}
+
+{# -- メインコンテンツ -- #}
+{% block main %}
+  <main>
+    <section id="login-form" class="container mb-4">
+      <div class="card mx-auto text-center">
+        <div class="card-body">
+          ご購入ありがとうございました。
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

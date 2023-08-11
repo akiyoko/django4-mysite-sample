@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+{# -- タイトル -- #}
+{% block title %}商品リスト{% endblock %}
+
+{# -- メインコンテンツ -- #}
+{% block main %}
+  <main>
+    <section id="book-search" class="container mb-4">
+      <div class="card mx-auto text-center">
+        <form action="" method="get" class="row m-3 g-3">
+          <input type="search" name="keyword" class="form-control" placeholder="キーワード"
+                 value="{{ keyword|default_if_none:'' }}">
+          <button type="submit" class="btn btn-primary">検索</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="book-list" class="container mb-4">
+      <div class="row row-cols-1 row-cols-md-4 g-3">
+        {% for book in book_list %}
+          <div class="col">
+            <div class="card h-100 mb-4">
+              <div class="p-3">
+                {% if book.image %}
+                  <a href="{% url 'shop:detail' book.id %}">
+                    <img src="{{ book.image.url }}" class="card-img-top">
+                  </a>
+                {% else %}
+                  <a href="{% url 'shop:detail' book.id %}">
+                    <img src="{% static 'shop/images/no-image.png' %}" class="card-img-top">
+                  </a>
+                {% endif %}
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">
+                  <a href="{% url 'shop:detail' book.id %}" class="text-decoration-none">{{ book.title }}</a>
+                </h5>
+                <ul class="list-group list-group-flush mb-3">
+                  <li class="list-group-item">
+                    <label class="badge bg-light text-dark">著　者</label>
+                    <small>{{ book.authors.all.0 }}{% if book.authors.all.1 %} 他{% endif %}</small>
+                  </li>
+                  <li class="list-group-item">
+                    <label class="badge bg-light text-dark">価　格</label>
+                    <small>{{ book.price|default_if_none:0|floatformat:"g" }}円</small>
+                  </li>
+                  <li class="list-group-item">
+                    <label class="badge bg-light text-dark">出版社</label>
+                    <small>{{ book.publisher }}</small>
+                  </li>
+                  <li class="list-group-item">
+                    <label class="badge bg-light text-dark">出版日</label>
+                    <small>{{ book.publish_date|date:"Y年m月d日" }}</small>
+                  </li>
+                  <li class="list-group-item">
+                    <label class="badge bg-light text-dark">詳　細</label>
+                    <small>{{ book.description|default:""|linebreaksbr|truncatechars_html:20 }}</small>
+                  </li>
+                </ul>
+                <a href="{% url 'shop:detail' book.id %}" type="button" class="w-100 btn btn-primary">商品詳細</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+  </main>
+{% endblock %}

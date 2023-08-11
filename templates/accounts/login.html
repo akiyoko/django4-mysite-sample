@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+{# -- タイトル -- #}
+{% block title %}ログイン{% endblock %}
+
+{# -- CSS -- #}
+{% block extra_css %}
+  <style type="text/css">
+      main > section > .mx-auto {
+          max-width: 400px;
+      }
+
+      .error-feedback {
+          margin-top: .25rem;
+          text-align: left;
+          font-size: 80%;
+          color: #dc3545;
+      }
+  </style>
+{% endblock %}
+
+{# -- メインコンテンツ -- #}
+{% block main %}
+  <main>
+    <section id="login-form" class="container mb-4">
+      <div class="card mx-auto text-center">
+        <div class="card-body">
+          <img src="{% static 'images/logo.png' %}" width="100">
+        </div>
+        <div class="card-body">
+          <h1 class="h3 mb-3">ログイン</h1>
+          <form action="" method="post" class="row m-3 g-3" novalidate>
+            {% for field in form %}
+              <div>
+                {# -- 入力項目 -- #}
+                {{ field }}
+                {# -- 入力項目ごとのエラーメッセージ -- #}
+                {% if field.errors %}
+                  {% for error in field.errors %}
+                    <div class="error-feedback">{{ error }}</div>
+                  {% endfor %}
+                {% endif %}
+              </div>
+            {% endfor %}
+
+            {% comment %}
+            {# -- 全体エラーメッセージ -- #}
+            {% for non_field_error in form.non_field_errors %}
+              <div class="error-feedback">
+                {{ non_field_error }}
+              </div>
+            {% endfor %}
+            {% endcomment %}
+
+            <button class="btn btn-lg btn-primary" type="submit">ログイン</button>
+            {% csrf_token %}
+          </form>
+        </div>
+        <div class="card-body mb-4">
+          <a href="{% url 'accounts:register' %}" class="text-decoration-none">新規ユーザー登録はこちら</a>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}
+
+{# -- フッターは表示しない -- #}
+{% block footer %}
+{% endblock %}

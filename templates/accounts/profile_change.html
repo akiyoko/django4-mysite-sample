@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+
+{# -- タイトル -- #}
+{% block title %}プロフィール画像変更{% endblock %}
+
+{# -- CSS -- #}
+{% block extra_css %}
+  <style type="text/css">
+      main > section > .mx-auto {
+          max-width: 400px;
+      }
+
+      .profile {
+          width: 150px;
+          height: 150px;
+      }
+
+      .error-feedback {
+          margin-top: .25rem;
+          text-align: left;
+          font-size: 80%;
+          color: #dc3545;
+      }
+  </style>
+{% endblock %}
+
+{# -- メインコンテンツ -- #}
+{% block main %}
+  <main>
+    <section id="login-form" class="container mb-4">
+      <div class="card mx-auto text-center">
+        <div class="card-body">
+        </div>
+        <div class="card-body">
+          <h1 class="h3 mb-3">プロフィール変更</h1>
+          {% if user.profile_image %}
+            <img src="{{ user.profile_image.url }}" class="rounded-circle border profile">
+          {% else %}
+            <img src="{% static 'accounts/images/no-image.png' %}" class="rounded-circle border profile">
+          {% endif %}
+        </div>
+        <div class="card-body">
+          <form action="" method="post" enctype="multipart/form-data" class="row m-3 g-3" novalidate>
+            <div>
+              {{ form.email }}
+              {% if form.email.errors %}
+                {% for error in form.email.errors %}
+                  <div class="error-feedback">{{ error }}</div>
+                {% endfor %}
+              {% endif %}
+            </div>
+            <div>
+              <input type="file" name="profile_image" id="id_profile_image"
+                     class="form-control" accept="image/*">
+            </div>
+            <button class="btn btn-lg btn-primary" type="submit">変更</button>
+            {% csrf_token %}
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

@@ -1,0 +1,17 @@
+<section id="message" class="container my-4">
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" role="alert">
+      <span>{{ message }}</span>
+    </div>
+  {% endfor %}
+
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger alert-dismissable" role="alert">
+      <ul class="list-unstyled mb-0">
+        {% for error in form.non_field_errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+</section>
